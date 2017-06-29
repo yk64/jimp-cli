@@ -3,7 +3,7 @@
 var program = require('commander');
 var resize = require('./actions/resize');
 var rotate = require('./actions/rotate');
-
+var brightness = require('./actions/brightness.js');
 program
 	.version('0.0.1')
 	.description('Image manipulation in JavaScript.')
@@ -23,5 +23,11 @@ program
 	.alias('ro')
 	.description('Rotate an image')
 	.action(rotate);
+
+program
+	.command('brightness <image> <brightness>')
+	.description('Adjust the brightness by a value -1 to +1')
+	.action(brightness);
+
 
 program.parse(process.argv);
