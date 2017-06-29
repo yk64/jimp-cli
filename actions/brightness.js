@@ -9,7 +9,6 @@ var R = require('ramda');
  * @param brightness
  */
 module.exports = function brightness(src, brightness) {
-    console.log(brightness);
     var blightnessVal = Number(brightness);
     if (isNaN(blightnessVal)) {
     	throw new TypeError('Jimp brightness expects brightness to be a number. "' + brightness + '" given');
