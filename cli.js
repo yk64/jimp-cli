@@ -5,6 +5,7 @@ var resize = require('./actions/resize');
 var rotate = require('./actions/rotate');
 var brightness = require('./actions/brightness');
 var crop = require('./actions/crop');
+var quality =require('./actions/quality') ;
 
 program
 	.version('0.0.1')
@@ -35,6 +36,11 @@ program
 	.command('crop <image> <x> <y> <w> <h>')
 	.description('Crop image to x, y, w, h')
 	.action(crop);
+
+program
+	.command('quality <image> <quality>')
+	.description('Set jpeg quality to a value from 0 to 100')
+	.action(quality);
 
 
 program.parse(process.argv);
