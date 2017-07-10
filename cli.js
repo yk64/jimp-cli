@@ -3,7 +3,9 @@
 var program = require('commander');
 var resize = require('./actions/resize');
 var rotate = require('./actions/rotate');
-var brightness = require('./actions/brightness.js');
+var brightness = require('./actions/brightness');
+var crop = require('./actions/crop');
+
 program
 	.version('0.0.1')
 	.description('Image manipulation in JavaScript.')
@@ -28,6 +30,11 @@ program
 	.command('brightness <image> <brightness>')
 	.description('Adjust the brightness by a value -1 to +1')
 	.action(brightness);
+
+program
+	.command('crop <image> <x> <y> <w> <h>')
+	.description('Crop image to x, y, w, h')
+	.action(crop);
 
 
 program.parse(process.argv);
