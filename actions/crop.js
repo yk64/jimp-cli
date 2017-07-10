@@ -9,11 +9,8 @@ var R = require('ramda');
  */
 module.exports = function crop(src, x, y, w, h) {
     const values = R.map(v => Number(v), { x, y, w, h });
-    console.log('values', values);
 
     R.forEachObjIndexed((value, key) => {
-        console.log('value', value);
-
         if (isNaN(value)) {
             throw new TypeError(`Jimp crop expects ${key} to be a number.  "${value}" given`);
         }
