@@ -12,8 +12,8 @@ var utils = require('../utils');
 function getMode(alias) {
 	var modes = [
 		{ mode: 'contain', aliases: ['contain', 'cn'] },
-		{ mode: 'cover',   aliases: ['cover', 'crop', 'cr', 'c'] },
-		{ mode: 'resize',  aliases: ['resize', 'fill', 'fl', 'f'] }
+		{ mode: 'cover', aliases: ['cover', 'crop', 'cr', 'c'] },
+		{ mode: 'resize', aliases: ['resize', 'fill', 'fl', 'f'] }
 	];
 
 	return modes.reduce(function (output, mode) {
@@ -37,10 +37,10 @@ function parseSizes(sizes, defaultMode) {
 			var mode = matches[1] || defaultMode;
 
 			return matches && {
-					mode: getMode(mode),
-					width: parseInt(matches[2], 10),
-					height: parseInt(matches[3] || matches[2], 10)
-				};
+				mode: getMode(mode),
+				width: parseInt(matches[2], 10),
+				height: parseInt(matches[3] || matches[2], 10)
+			};
 		})
 		.filter(function (size) {
 			return size && size.mode && size.width && size.height;
@@ -61,6 +61,7 @@ module.exports = function resize(src, sizes, options) {
 	if (options.crop && options.fill) {
 		throw new Error('Image resize cannot have both the crop and fill flags set');
 	}
+	var quality = Number(options.quality) || 100;
 
 	var defaultMode = (options.crop && 'crop')
 		|| (options.fill && 'fill')
@@ -80,14 +81,16 @@ module.exports = function resize(src, sizes, options) {
 		validSizes.forEach(function (size) {
 			if (typeof image[size.mode] === 'function') {
 				image.clone()[size.mode](size.width, size.height)
-					.write(getOutputFile(src, [size.mode, size.width + 'x' + size.height]));
+					.quality(quality)
+					.write(getOutputFile(src, [size.width + 'x' + size.height]));
 			}
 
 			console.log(
 				'Image %s resized:', src,
 				'mode', size.mode,
 				'width', size.width,
-				'height', size.height
+				'height', size.height,
+				'quality', quality
 			);
 		});
 	});

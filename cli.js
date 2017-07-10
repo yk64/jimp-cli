@@ -5,11 +5,12 @@ var resize = require('./actions/resize');
 var rotate = require('./actions/rotate');
 var brightness = require('./actions/brightness');
 var crop = require('./actions/crop');
-var quality =require('./actions/quality') ;
+var quality = require('./actions/quality');
 
 program
 	.version('0.0.1')
 	.description('Image manipulation in JavaScript.')
+	.option('-q --quality <quality>', 'Jpeg quality between 0-100')
 	.option('-o --out-file <name>', 'Name of the output file. Size strings will be appended to this file name')
 	.option('-d --out-dir <dir>', 'Path to the output directory');
 
