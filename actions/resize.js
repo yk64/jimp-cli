@@ -1,5 +1,6 @@
 var Jimp = require('Jimp');
 var utils = require('../utils');
+var R = require('ramda');
 
 
 /**
@@ -61,7 +62,14 @@ module.exports = function resize(src, sizes, options) {
 	if (options.crop && options.fill) {
 		throw new Error('Image resize cannot have both the crop and fill flags set');
 	}
-	var quality = Number(options.quality) || 100;
+	const mergedOptions = R.mergeAll(
+		[
+			{ quality: 80 },
+			options.parent,
+			options,
+		]
+	)
+	var quality = Number(mergedOptions.quality) ;
 
 	var defaultMode = (options.crop && 'crop')
 		|| (options.fill && 'fill')

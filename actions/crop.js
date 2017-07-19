@@ -7,9 +7,18 @@ var R = require('ramda');
  * @param src
  * @param x, y, w, h
  */
-module.exports = function crop(src, x, y, w, h) {
+module.exports = function crop(src, x, y, w, h, options) {
     const values = R.map(v => Number(v), { x, y, w, h });
-    var quality = Number(options.quality) || 100;
+    const mergedOptions = R.mergeAll(
+        [
+            { quality: 80 },
+            options.parent,
+            options,
+        ]
+    )
+    var quality = Number(mergedOptions.quality);
+  
+
     R.forEachObjIndexed((value, key) => {
         if (isNaN(value)) {
             throw new TypeError(`Jimp crop expects ${key} to be a number.  "${value}" given`);
@@ -30,6 +39,6 @@ module.exports = function crop(src, x, y, w, h) {
             .quality(quality)
             .write(getOutputFile(src, ['cropped', `${x}_${y}_${w}_${h}`]));
 
-        console.log('Image %s\ has been cropped x:%f y:%f w:%f h:%f', src, x, y, w, h);
+        console.log('Image %s\ has been cropped x:%f y:%f w:%f h:%f with quality %d', src, x, y, w, h, quality);
     });
 };
